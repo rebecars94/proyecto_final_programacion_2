@@ -23,3 +23,11 @@ Dataset terremotos_profundidad
 | Tipo        | Caracter | Causa del movimiento         |
 | Profundidad | Numérica | Profundidad del terremoto    |
 | ID          | Caracter | Identificador del movimiento |
+
+Dataset terremotos_magnitud
+
+| Variable         | Tipo     | Descripcion                     |
+|------------------|----------|---------------------------------|
+| ID               | caracter | Identificador del movimiento    |
+| Magnitud         | numerica | Magnitud del terremoto          |
+| Tipo de magnitud | caracter | Unidad de medida de la magnitud |
