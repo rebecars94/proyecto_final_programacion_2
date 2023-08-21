@@ -1,0 +1,85 @@
+---
+title: "Proyecto_Final_Progra_II"
+author: "Fabiana Hidalgo Fallas"
+date: "2023-08-21"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(readr)
+library(readxl)
+library(tidyr)
+library(janitor)
+library(lubridate)
+library(utils)
+library(gt)
+library(datasets)
+library(tinytex)
+library(stringr)
+library(leaflet)
+library(ggplot2)
+library(plotly)
+```
+
+Se agrega el primer conjunto de datos.
+
+```{r}
+Datos_terremotos_1 <-read.csv("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/terremotos_profundidad.csv")
+```
+
+Se corregirán los nombres de las columnas  se pasarán a español
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+  rename(Fecha = Date,
+         Hora = Time,
+         Latitud = Latitude,
+         Longitud = Longitude,
+         Tipo = Type,
+         Profundidad = Depth,
+         Profundidad_error = Depth.Error)
+```
+
+Se organizan las columnas
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+  select(X,ID, Tipo, Fecha, Hora, Latitud, Longitud, Profundidad, Profundidad_error)
+```
+
+Se eliminan las filas duplicadas
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+  distinct()
+```
+
+Se elimina la columna vacia Profundidad error
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+   select(-Profundidad_error) |> 
+  distinct()
+```
+
+Se agrega el segundo conjunto de datos.
+
+```{r}
+Datos_terremotos_2 <- read.csv("https://raw.githubusercontent.com/isa229/programacion_analisis_datos_ii/main/terremotos_magnitud.csv")
+```
+Se corregirán los nombres de las columnas  se pasarán a español
+
+```{r}
+Datos_terremotos_2 <- Datos_terremotos_2 |> 
+  rename(Magnitud = Magnitude,
+         Tipo_de_Magnitud = Magnitude.Type)
+```
+
+Se eliminan las filas duplicadas 
+
+```{r}
+Datos_terremotos_2 <- Datos_terremotos_2 |> 
+  distinct()
+```
