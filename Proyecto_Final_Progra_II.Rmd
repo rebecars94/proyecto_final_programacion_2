@@ -83,3 +83,43 @@ Se eliminan las filas duplicadas
 Datos_terremotos_2 <- Datos_terremotos_2 |> 
   distinct()
 ```
+
+Transformación de los tipos de variables: para el conjunto de datos terremotos_profundidad use lubridate para transformar la fecha de carácter a un objetivo tipo fecha
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1|> 
+  mutate(Fecha = mdy(Fecha))
+
+glimpse(Datos_terremotos_1)
+```
+
+
+Transformación de datos: para el conjunto de datos terremotos_profundidad examine cuáles son los valores distintos que hay en la variable “Type” o tipo. Use mutate para unificar valores si es necesario
+
+```{r}
+Datos_terremotos_1 |> 
+  distinct(Tipo)
+
+```
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1  |> 
+  mutate(Tipo = case_when(Tipo == "nuclear explosion" ~ "Nuclear Explosion",
+                                       Tipo %in% c("earthquake", "Earthquake") ~ "Earthquake",
+                                       TRUE ~ Tipo 
+                                       ))
+```
+
+Creación de columnas adicionales: para el conjunto de datos terremotos_profundidad cree 2 nuevas
+columnas: una que contenga el mes del terremoto, y otra que contenga el año del terremoto
+
+
+```{r}
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+  mutate(Anyo_terremoto = year(Fecha))
+
+Datos_terremotos_1 <- Datos_terremotos_1 |> 
+  mutate(Mes_terremoto = month(Fecha))
+```
+
+
