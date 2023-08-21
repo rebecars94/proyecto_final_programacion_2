@@ -153,3 +153,123 @@ datos_terremotos <- datos_terremotos |>
 ```{r}
 glimpse(datos_terremotos)
 ```
+
+3.1 Hacer un pequeño análisis sobre variación para la variable magnitud. Puede usar ggplot2 o plolty,
+así como lo aprendido en el cuatrimestre pasado.
+
+Se filtraron los datos para saber cuáles son los años con mayor cantidad de terremotos (2011, 2007, 1995, 2004, 2010, 2000, 1996, 1992, 2005, 1990), despues se eligió el año con la mayor cantidad de terremotos (2011) y se analizó la variación de la magnitud sacando un promedio mensual de la magnitud durante este año.
+
+```{r}
+datos_terremotos<- na.omit(datos_terremotos)
+```
+
+```{r}
+terremotos_por_anio <- datos_terremotos |> 
+  group_by(Anyo_terremoto) |> 
+  summarize(Total_terremotos = n())
+```
+
+```{r}
+top_10_anios <- terremotos_por_anio |> 
+  top_n(10, Total_terremotos) |> 
+  arrange(desc(Total_terremotos))
+```
+
+```{r}
+datos_terremotos_2011 <- datos_terremotos |> 
+  filter(Anyo_terremoto == 2011)
+```
+
+```{r}
+grafico_top_anios <- top_10_anios |> 
+  ggplot(aes(x = Anyo_terremoto, y = Total_terremotos)) +
+  geom_line(color = "red") +
+  geom_point() +
+  xlab("Año") + 
+  ylab("Total") +
+  labs(title = "Top 10 de anos con mas terremotos",
+       subtitle = "Ordenados del que mas posee al que menos posee") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "right")
+```
+
+```{r}
+ggplotly(grafico_top_anios)
+```
+
+```{r}
+glimpse(datos_terremotos_2011)
+```
+
+```{r}
+promedio_magnitud_2011 <- datos_terremotos_2011 |> 
+  group_by(Mes_terremoto) |> 
+  summarize(Promedio_magnitud_mensual = mean(Magnitud))
+```
+
+```{r}
+grafico_magnitud_2011 <- promedio_magnitud_2011|> 
+  ggplot(aes(x = Mes_terremoto, y = Promedio_magnitud_mensual)) +
+  geom_line(color = "turquoise") +
+  geom_point() +
+  scale_x_continuous(breaks = 1:12) +
+  xlab("Año") + 
+  ylab("Promedio de magnitud") +
+  labs(title = "Promedio de magnitud en el ano 2011",
+       subtitle = "El promedio se visualiza por ano") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "right", text = element_text(family = "Arial Narrow"))
+```
+
+```{r}
+grafico_magnitud_2011
+```
+
+
+```{r}
+ggplotly(grafico_magnitud_2011)
+```
+
+
+• 3.2 Haga un pequeño análisis sobre variación para la variable Tipo. Puede usar ggplot2 o plotly, así
+como lo aprendido en el cuatrimestre pasado.
+
+Se saca la cantidad de terremotos por tipo de terremoto y se representa de esa forma.
+
+```{r}
+datos_terremotos_tipo <- datos_terremotos |> 
+  group_by(Tipo) |> 
+  count()
+```
+
+```{r}
+ano_mas_antiguo <- min(datos_terremotos$Anyo_terremoto, na.rm = TRUE)
+ano_mas_reciente <- max(datos_terremotos$Anyo_terremoto, na.rm = TRUE)
+```
+
+```{r}
+datos_terremotos_tipo <- datos_terremotos_tipo |> 
+  rename("Total_tipo" = "n")
+```
+
+```{r}
+grafico_terremotos_tipo <- datos_terremotos_tipo |> 
+  ggplot(aes(x = Tipo, y = Total_tipo)) +
+  geom_bar(stat = "identity", fill = "turquoise") +
+  xlab("Tipo") + 
+  ylab("Total") +
+  labs(title = "Cantidad de tipos de terremotos",
+       subtitle = "Datos de 1965 a 2016") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "right", text = element_text(family = "Arial Narrow"))
+```
+
+
+```{r}
+grafico_terremotos_tipo
+```
+
+```{r}
+ggplotly(grafico_terremotos_tipo)
+```
+
