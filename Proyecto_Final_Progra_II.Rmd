@@ -1,6 +1,6 @@
 ---
 title: "Proyecto_Final_Progra_II"
-author: "Fabiana Hidalgo Fallas"
+author: "Carolina Durán Villalta, Fabiana Hidalgo Fallas, Rebeca Rodríguez Solano"
 date: "2023-08-21"
 output: html_document
 ---
@@ -154,7 +154,7 @@ datos_terremotos <- datos_terremotos |>
 glimpse(datos_terremotos)
 ```
 
-3.1 Hacer un pequeño análisis sobre variación para la variable magnitud. Puede usar ggplot2 o plolty,
+Hacer un pequeño análisis sobre variación para la variable magnitud. Puede usar ggplot2 o plolty,
 así como lo aprendido en el cuatrimestre pasado.
 
 Se filtraron los datos para saber cuáles son los años con mayor cantidad de terremotos (2011, 2007, 1995, 2004, 2010, 2000, 1996, 1992, 2005, 1990), despues se eligió el año con la mayor cantidad de terremotos (2011) y se analizó la variación de la magnitud sacando un promedio mensual de la magnitud durante este año.
@@ -231,7 +231,7 @@ ggplotly(grafico_magnitud_2011)
 ```
 
 
-• 3.2 Haga un pequeño análisis sobre variación para la variable Tipo. Puede usar ggplot2 o plotly, así
+Haga un pequeño análisis sobre variación para la variable Tipo. Puede usar ggplot2 o plotly, así
 como lo aprendido en el cuatrimestre pasado.
 
 Se saca la cantidad de terremotos por tipo de terremoto y se representa de esa forma.
@@ -273,9 +273,9 @@ grafico_terremotos_tipo
 ggplotly(grafico_terremotos_tipo)
 ```
 
-• 3.3 Filtre los datos de los terremotos para obtener solamente aquellos que se hayan dado entre las
+Filtre los datos de los terremotos para obtener solamente aquellos que se hayan dado entre las
 coordenadas de latitud 8 y 11 Norte con Longitud entre -85 y -82 Oeste. Estos son los movimiento
-telúricos que se dieron en Costa Rica. Cuántos fueron? (3pts)
+telúricos que se dieron en Costa Rica. Cuántos fueron? 
 
 ```{r}
 Terremotos_CR <- datos_terremotos |> filter(Latitud >= 8 & Latitud <= 11, Longitud >= -85 & Longitud <= -82) 
@@ -285,10 +285,10 @@ nrow(Terremotos_CR)
 
 ```
 
-• 3.4 Filtre los datos de terremotos de Costa Rica para obtener los 10 terremotos con magnitud más
+Filtre los datos de terremotos de Costa Rica para obtener los 10 terremotos con magnitud más
 altas en Costa Rica. Muestre estos datos en una tabla de gt que muestre el mes, año, latitud, longitud,
 magnitud y profundidad del terremoto. A esta tabla añada título, subtítulo, y al menos un pie de
-tabla (10pts)
+tabla 
 
 ```{r}
 Top_10_terremotos_CR <- Terremotos_CR |> 
@@ -326,6 +326,13 @@ Top_10_terremotos_CR <- Terremotos_CR |>
 tabla_top_10_terremotos_CR
 ```
 
+Muestre los 10 terremotos con mayor magnitud obtenidos anteriormente en un mapa de leaflet.
+Como popup coloque el año del terremoto. 
 
-
-
+```{r}
+terremotos_altos_mapa <- Top_10_terremotos_CR |>
+  leaflet() |>
+  addTiles() |>
+  addMarkers(lng = ~Longitud, lat = ~Latitud, popup = ~paste("Año terremoto:", Anyo_terremoto))
+terremotos_altos_mapa
+```
