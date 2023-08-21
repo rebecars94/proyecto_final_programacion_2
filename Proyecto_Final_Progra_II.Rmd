@@ -273,3 +273,59 @@ grafico_terremotos_tipo
 ggplotly(grafico_terremotos_tipo)
 ```
 
+• 3.3 Filtre los datos de los terremotos para obtener solamente aquellos que se hayan dado entre las
+coordenadas de latitud 8 y 11 Norte con Longitud entre -85 y -82 Oeste. Estos son los movimiento
+telúricos que se dieron en Costa Rica. Cuántos fueron? (3pts)
+
+```{r}
+Terremotos_CR <- datos_terremotos |> filter(Latitud >= 8 & Latitud <= 11, Longitud >= -85 & Longitud <= -82) 
+
+
+nrow(Terremotos_CR)
+
+```
+
+• 3.4 Filtre los datos de terremotos de Costa Rica para obtener los 10 terremotos con magnitud más
+altas en Costa Rica. Muestre estos datos en una tabla de gt que muestre el mes, año, latitud, longitud,
+magnitud y profundidad del terremoto. A esta tabla añada título, subtítulo, y al menos un pie de
+tabla (10pts)
+
+```{r}
+Top_10_terremotos_CR <- Terremotos_CR |> 
+  arrange(desc(Magnitud)) |> 
+  head(10)
+```
+
+```{r}
+ tabla_top_10_terremotos_CR <- Top_10_terremotos_CR |> 
+  select(Mes_terremoto,Anyo_terremoto,Latitud,Longitud,Magnitud,Profundidad) |> 
+   gt() |> 
+   tab_header(
+    title = " Top 10 de terremotos con magnitud más alta en Costa Rica ",
+    subtitle = "Los terremotos más fuertes registrados en Costa Rica"
+    ) |> 
+      cols_label(
+    Mes_terremoto = "Mes",
+    Anyo_terremoto = "Año",
+    Latitud = "Latitud",
+    Longitud = "Longitud",
+    Magnitud = "Magnitud",
+    Profundidad = "Profundidad"
+  ) |> 
+  tab_source_note(
+    source_note = "Fuente de los datos: USGS (Servicio Geológico de los Estados Unidos)") |> 
+    tab_footnote(
+    footnote = "Magnitudes más altas",
+    locations = cells_body(columns = Magnitud, rows = 1:10) 
+  ) |> 
+    data_color(
+    columns = Magnitud,
+    palette = c("blue", "white", "red","white","blue")
+  ) 
+
+tabla_top_10_terremotos_CR
+```
+
+
+
+
