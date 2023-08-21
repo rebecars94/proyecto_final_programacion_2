@@ -122,4 +122,34 @@ Datos_terremotos_1 <- Datos_terremotos_1 |>
   mutate(Mes_terremoto = month(Fecha))
 ```
 
+Unir ambos conjuntos de datos en un solo conjunto de datos llamado datos_terremotos. Para esto
+use un left_join o un right_join, la llave que une ambos datasets es la columna llamada ID en los
+conjuntos de datos originales
 
+```{r}
+datos_terremotos <- merge(Datos_terremotos_1, Datos_terremotos_2, by = "ID", all.x = TRUE)
+```
+
+```{r}
+glimpse(Datos_terremotos_1)
+```
+
+```{r}
+glimpse(Datos_terremotos_2)
+```
+```{r}
+glimpse(datos_terremotos)
+```
+
+
+Eliminar columnas vacías e innecesarias: Elimine aquellas columnas vacías o que no están aportando
+ninguna información.
+
+```{r}
+datos_terremotos <- datos_terremotos |> 
+  select(-X.x, -X.y)
+```
+
+```{r}
+glimpse(datos_terremotos)
+```
